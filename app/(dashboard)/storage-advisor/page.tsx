@@ -1,0 +1,191 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
+import { Bot, User, Send, Lightbulb, Loader2, ShieldCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+interface Message {
+  role: "user" | "assistant";
+  content: string;
+}
+
+const suggestions = [
+  "Where should I store gold?",
+  "How should I preserve important documents?",
+  "Where should I keep medicines?",
+  "How do I organize storage boxes?",
+];
+
+export default function StorageAdvisorPage() {
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content:
+        "Hello! I am your Storage & Preservation Advisor. Ask me how to store, organize, or preserve household belongings, papers, electronics, or valuables. I will provide helpful safety tips and environmental recommendations.",
+    },
+  ]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, loading]);
+
+  const handleSendMessage = async (text: string) => {
+    if (!text.trim()) return;
+
+    const userMsg: Message = { role: "user", content: text };
+    setMessages((prev) => [...prev, userMsg]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/advisor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to retrieve advice");
+      }
+
+      const data = await res.json();
+      setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error communicating with Storage Advisor");
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "Sorry, I couldn't retrieve storage advice. Please make sure a valid GEMINI_API_KEY is configured in your `.env` file.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Helper to check if a line is a disclaimer and wrap it in a custom style
+  const renderMessageContent = (content: string) => {
+    const parts = content.split("Disclaimer:");
+    if (parts.length > 1) {
+      return (
+        <div className="space-y-4">
+          <p className="whitespace-pre-line">{parts[0].trim()}</p>
+          <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs flex gap-2">
+            <ShieldCheck className="h-4.5 w-4.5 shrink-0 text-red-400" />
+            <p>
+              <span className="font-semibold text-red-300">Disclaimer:</span>
+              {parts[1]}
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return <p className="whitespace-pre-line">{content}</p>;
+  };
+
+  return (
+    <div className="w-full h-full flex flex-col">
+      {/* Chat Area */}
+      <div className="flex-1 flex flex-col border border-slate-800 bg-slate-900/10 rounded-2xl overflow-hidden h-full">
+        {/* Messages Body */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 min-h-[300px]">
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`flex items-start gap-3 max-w-[85%] ${
+                msg.role === "user" ? "ml-auto flex-row-reverse" : ""
+              }`}
+            >
+              <div
+                className={`p-2 rounded-xl shrink-0 ${
+                  msg.role === "user"
+                    ? "bg-indigo-600 text-white"
+                    : "bg-slate-900 border border-slate-850 text-indigo-400"
+                }`}
+              >
+                {msg.role === "user" ? <User className="h-4 w-4" /> : <Lightbulb className="h-4 w-4" />}
+              </div>
+
+              <div
+                className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                  msg.role === "user"
+                    ? "bg-indigo-650 text-white rounded-tr-none"
+                    : "bg-slate-900/70 border border-slate-850 text-slate-200 rounded-tl-none"
+                }`}
+              >
+                {renderMessageContent(msg.content)}
+              </div>
+            </div>
+          ))}
+
+          {/* Loading Indicator */}
+          {loading && (
+            <div className="flex items-start gap-3 max-w-[85%]">
+              <div className="p-2 rounded-xl bg-slate-900 border border-slate-850 text-indigo-400">
+                <Lightbulb className="h-4 w-4" />
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-850 text-slate-400 rounded-tl-none flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin text-indigo-400" />
+                Retrieving advice...
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Suggestion Chips */}
+        {messages.length === 1 && (
+          <div className="px-6 pb-2 pt-2 flex flex-wrap gap-2.5">
+            {suggestions.map((suggestion) => (
+              <button
+                key={suggestion}
+                onClick={() => handleSendMessage(suggestion)}
+                className="text-xs px-3.5 py-1.5 rounded-full border border-slate-850 bg-slate-900/40 text-slate-400 hover:border-slate-800 hover:text-white transition-all cursor-pointer"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Text Input Area */}
+        <div className="p-4 border-t border-slate-900 bg-slate-900/30">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSendMessage(input);
+            }}
+            className="flex gap-2.5"
+          >
+            <Input
+              placeholder="Ask: Where should I store gold? or How do I preserve documents?..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              disabled={loading}
+              className="bg-slate-950 border-slate-800 focus-visible:ring-indigo-500 rounded-xl text-slate-200 h-11"
+            />
+            <Button
+              type="submit"
+              disabled={loading || !input.trim()}
+              className="h-11 w-11 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shrink-0 p-0 shadow-md shadow-indigo-500/10 cursor-pointer"
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}

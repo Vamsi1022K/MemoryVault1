@@ -1,0 +1,48 @@
+;!function(){try { var e="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&((e._debugIds|| (e._debugIds={}))[n]="9c3b507e-a503-3f33-e084-d1d59cbf8910")}catch(e){}}();
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,486240,e=>{"use strict";var t=e.i(221628),s=e.i(416340),o=e.i(500850),a=e.i(283606),r=e.i(314805),n=e.i(408279),i=e.i(331162);let d={bash:"bash",csharp:"csharp",cs:"csharp",curl:"curl",dart:"dart",go:"go",http:"http",javascript:"js",js:"js",json:"json",jsx:"jsx",kotlin:"kotlin",pgsql:"pgsql",php:"php",py:"python",python:"python",sh:"bash",shell:"bash",sql:"sql",swift:"swift",ts:"ts",typescript:"ts",yaml:"yaml",yml:"yaml"},c={astro:"html",bash:"bash",cjs:"js",dart:"dart",go:"go",js:"js",json:"json",jsx:"jsx",kt:"kotlin",mjs:"js",php:"php",pgsql:"pgsql",py:"python",sh:"bash",sql:"sql",swift:"swift",svelte:"html",ts:"ts",vue:"html",yaml:"yaml",yml:"yaml"};e.s(["MultipleCodeBlock",0,({files:e,value:l,onValueChange:p})=>{if(!e?.length)return null;let h=e[0]?.name??"",u=void 0!==l,[m,g]=(0,s.useState)(h),v=e.map(e=>({...e,code:"string"==typeof e.code?e.code.trim():e.code}));return(0,s.useEffect)(()=>{u||g(t=>e.some(e=>e.name===t)?t:h)},[h,e,u]),(0,t.jsxs)(o.Tabs_Shadcn_,{value:u?l:m,onValueChange:e=>{u||g(e),p?.(e)},className:"border rounded-lg gap-0 space-y-0 overflow-hidden",children:[(0,t.jsx)(r.TabsList_Shadcn_,{className:"bg-surface-75 px-5 gap-5 overflow-x-auto border-0 border-b",children:e.map(e=>(0,t.jsx)(n.TabsTrigger_Shadcn_,{value:e.name,className:"flex items-center gap-1 text-xs px-0 data-[state=active]:bg-transparent py-2.5",children:e.name},e.name))}),v.map(e=>(0,t.jsx)(a.TabsContent_Shadcn_,{value:e.name,forceMount:!0,className:"p-0 max-h-72 overflow-scroll data-[state=inactive]:hidden","data-connect-tab-content":!0,"data-tab-label":e.name,children:(0,t.jsx)(i.CodeBlock,{value:"string"==typeof e.code?e.code.trim():e.code,language:((e,t)=>{if(e){let t=d[e.toLowerCase()];if(t)return t}return(e=>{let t=e.toLowerCase();if(t.startsWith(".env"))return"bash";let s=t.split(".").pop();if(s&&s!==t)return c[s]})(t)??"js"})(e.language,e.name),className:"min-h-72 !bg-surface-75 rounded-none border-0"})},e.name))]})}])},306141,e=>{"use strict";var t=e.i(221628),s=e.i(486240);e.s(["default",0,({connectionStringPooler:e,deploymentMode:o})=>{let a=[{name:".env.local",language:"bash",code:o.isCli?`
+# Connect to Postgres via the direct connection
+DATABASE_URL="${e.direct}"
+
+# Used for migrations
+DIRECT_URL="${e.direct}"
+`:o.isSelfHosted?`
+# Connect to Postgres via the self-hosted transaction-mode pooler
+DATABASE_URL="${e.transactionShared}?pgbouncer=true"
+
+# Connect to Postgres via the self-hosted session-mode pooler (used for migrations)
+DIRECT_URL="${e.sessionShared}"
+`:e.transactionDedicated&&e.ipv4SupportedForDedicatedPooler?`
+# Connect to Postgres via the dedicated transaction-mode pooler (IPv4-only)
+DATABASE_URL="${e.transactionDedicated}?pgbouncer=true"
+
+# Connect to Postgres directly (used for migrations)
+DIRECT_URL="${e.sessionDedicated}"
+        `:e.transactionDedicated&&!e.ipv4SupportedForDedicatedPooler?`
+# Connect to Postgres via the shared transaction-mode pooler (IPv4-only)
+DATABASE_URL="${e.transactionShared}?pgbouncer=true"
+
+# Connect to Postgres via the shared session-mode pooler (used for migrations)
+DIRECT_URL="${e.sessionShared}"
+
+# For paid projects, if your network supports IPv6, or you purchased the IPv4 add-on, use the dedicated transaction-mode pooler with a direct connection to Postgres for migrations as an alternative
+# DATABASE_URL="${e.transactionDedicated}?pgbouncer=true"
+# DIRECT_URL="${e.sessionDedicated}"
+ `:`
+# Connect to Postgres via the shared transaction-mode pooler (IPv4-only)
+DATABASE_URL="${e.transactionShared}?pgbouncer=true"
+
+# Connect to Postgres via the shared session-mode pooler (used for migrations)
+DIRECT_URL="${e.sessionShared}"
+`},{name:"prisma/schema.prisma",language:"bash",code:`
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+        `}];return(0,t.jsx)(s.MultipleCodeBlock,{files:a})}])}]);
+
+//# debugId=9c3b507e-a503-3f33-e084-d1d59cbf8910
