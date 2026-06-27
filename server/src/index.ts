@@ -40,29 +40,44 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", message: "MemoryVault API is running" });
 });
 
-// ── MongoDB Connection ────────────────────────────────────────────────────────
+// ── MongoDB Connection Middleware ──────────────────────────────────────────────
 
-async function startServer() {
+let cachedDbConnection: typeof mongoose | null = null;
+
+async function connectToDatabase() {
+  if (cachedDbConnection) {
+    return cachedDbConnection;
+  }
   const mongoUri = process.env.MONGODB_URI;
   if (!mongoUri) {
-    console.error("❌ MONGODB_URI is not set in your .env file");
-    process.exit(1);
+    throw new Error("MONGODB_URI is not set in environment variables");
   }
-
-  try {
-    await mongoose.connect(mongoUri);
-    console.log("✅ Connected to MongoDB Atlas");
-
-    // Seed default categories on first start
-    await seedDefaultCategories();
-
-    app.listen(PORT, () => {
-      console.log(`🚀 MemoryVault Server running on http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error("❌ MongoDB connection failed:", error);
-    process.exit(1);
-  }
+  cachedDbConnection = await mongoose.connect(mongoUri);
+  console.log("✅ Connected to MongoDB Atlas");
+  
+  // Seed default categories
+  await seedDefaultCategories();
+  
+  return cachedDbConnection;
 }
 
-startServer();
+// Intercept all requests to ensure MongoDB is connected
+app.use(async (req, res, next) => {
+  try {
+    await connectToDatabase();
+    next();
+  } catch (error: any) {
+    console.error("❌ Database connection failed:", error);
+    res.status(500).json({ error: "Database connection failed", details: error.message });
+  }
+});
+
+// Only listen on a port if NOT running as a serverless function on Vercel
+if (process.env.VERCEL !== "1") {
+  app.listen(PORT, () => {
+    console.log(`🚀 MemoryVault Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
+
