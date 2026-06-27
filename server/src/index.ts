@@ -19,15 +19,9 @@ const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Dynamically allow any secure HTTPS deployment domain or localhost ports
-      if (!origin || origin.startsWith("https://") || origin.startsWith("http://localhost")) {
-        callback(null, true);
-      } else {
-        callback(null, false);
-      }
-    },
-    credentials: true,
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
