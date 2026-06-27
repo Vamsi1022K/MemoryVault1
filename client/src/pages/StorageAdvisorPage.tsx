@@ -158,50 +158,78 @@ export default function StorageAdvisorPage() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col animate-fade-in">
-      {/* Chat Area */}
-      <div className="flex-1 flex flex-col border border-appBorder bg-white rounded-2xl overflow-hidden h-full shadow-soft">
-        {/* Messages Body */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 min-h-[300px]">
+    <div className="w-full space-y-8 animate-fade-in font-sans text-appTextPrimary">
+      
+      {/* Advisor Highlights Grid */}
+      <div>
+        <h3 className="text-sm font-bold text-appTextPrimary mb-3 flex items-center gap-2">
+          <ShieldCheck className="h-4.5 w-4.5 text-appPrimary" /> Recommended Storage Guidelines
+        </h3>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { title: "Paper & Documents", desc: "Use acid-free plastic sleeves or fireproof binders.", temp: "18 - 22°C", humidity: "< 50% RH" },
+            { title: "Valuables & Gold", desc: " Velvet-lined safe boxes or vault deposit boxes.", temp: "15 - 20°C", humidity: "< 40% RH" },
+            { title: "Medicines & Drugs", desc: "Cool, dark cabinets away from direct sunlight.", temp: "15 - 25°C", humidity: "< 60% RH" },
+            { title: "Electronics & Tech", desc: "Anti-static pouches with dry silica gel packs.", temp: "10 - 25°C", humidity: "< 30% RH" },
+          ].map((item) => (
+            <div key={item.title} className="bg-white border border-appBorder rounded-xl p-4 shadow-soft space-y-3">
+              <div className="flex justify-between items-center pb-2 border-b border-stone-100">
+                <span className="text-xs font-bold text-appTextPrimary">{item.title}</span>
+              </div>
+              <p className="text-[11px] text-appTextSecondary leading-relaxed">{item.desc}</p>
+              <div className="grid grid-cols-2 gap-2 pt-1 text-[9px] font-semibold">
+                <div className="bg-stone-50 border border-appBorder p-1.5 rounded text-center">
+                  <span className="block text-stone-400 font-normal">Temp</span>
+                  <span className="text-appTextPrimary">{item.temp}</span>
+                </div>
+                <div className="bg-stone-50 border border-appBorder p-1.5 rounded text-center">
+                  <span className="block text-stone-400 font-normal">Humidity</span>
+                  <span className="text-appTextPrimary">{item.humidity}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Consult Advisor Chat Area */}
+      <div className="border border-appBorder bg-white rounded-xl overflow-hidden shadow-soft flex flex-col">
+        
+        {/* Advisor Header */}
+        <div className="p-4 border-b border-appBorder bg-stone-50 flex items-center justify-between">
+          <div>
+            <h3 className="text-xs font-bold text-appTextPrimary">Consult Storage Advisor</h3>
+            <p className="text-[10px] text-appTextSecondary mt-0.5">Ask questions about how to store other custom items.</p>
+          </div>
+        </div>
+
+        {/* Message Panel */}
+        <div className="p-5 space-y-4 max-h-[320px] overflow-y-auto min-h-[160px]">
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`flex items-start gap-3 max-w-[85%] ${
-                msg.role === "user" ? "ml-auto flex-row-reverse" : ""
+              className={`p-4 rounded-xl border text-sm leading-relaxed ${
+                msg.role === "user"
+                  ? "border-appPrimary/25 bg-appPrimary-light/20 text-appTextPrimary max-w-[85%] ml-auto"
+                  : "border-appBorder bg-white text-appTextPrimary shadow-soft max-w-[85%]"
               }`}
             >
-              <div
-                className={`p-2 rounded-xl shrink-0 ${
-                  msg.role === "user"
-                    ? "bg-appPrimary text-white"
-                    : "bg-appMuted border border-appBorder text-appPrimary"
-                }`}
-              >
-                {msg.role === "user" ? <User className="h-4 w-4" /> : <Lightbulb className="h-4 w-4" />}
+              <div className="flex justify-between items-center pb-1 mb-2 border-b border-stone-100 text-[10px] font-bold tracking-wider text-appTextSecondary uppercase">
+                <span>{msg.role === "user" ? "You" : "Advisor Assistant"}</span>
+                <span className="text-[9px] text-stone-400 normal-case font-normal">
+                  {msg.role === "assistant" ? "Gemini 2.5 flash recommendations" : ""}
+                </span>
               </div>
-
-              <div
-                className={`p-4 rounded-2xl text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-appPrimary text-white rounded-tr-none"
-                    : "bg-appBg/65 border border-appBorder text-appTextPrimary rounded-tl-none shadow-soft"
-                }`}
-              >
-                {renderMessageContent(msg.content)}
-              </div>
+              <div className="text-xs">{renderMessageContent(msg.content)}</div>
             </div>
           ))}
 
           {/* Loading Indicator */}
           {loading && (
-            <div className="flex items-start gap-3 max-w-[85%]">
-              <div className="p-2 rounded-xl bg-appMuted border border-appBorder text-appPrimary">
-                <Lightbulb className="h-4 w-4" />
-              </div>
-              <div className="p-4 rounded-2xl bg-appBg/65 border border-appBorder text-appTextSecondary rounded-tl-none flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin text-appPrimary" />
-                Retrieving advice...
-              </div>
+            <div className="p-4 rounded-xl border border-appBorder bg-stone-50 max-w-[85%] text-xs flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin text-appPrimary" />
+              <span className="text-appTextSecondary">Consulting preservation indexes...</span>
             </div>
           )}
           <div ref={messagesEndRef} />
@@ -209,12 +237,12 @@ export default function StorageAdvisorPage() {
 
         {/* Suggestion Chips */}
         {messages.length === 1 && (
-          <div className="px-6 pb-4 pt-2 flex flex-wrap gap-2.5">
+          <div className="px-5 pb-3 flex flex-wrap gap-2">
             {suggestions.map((suggestion) => (
               <button
                 key={suggestion}
                 onClick={() => handleSendMessage(suggestion)}
-                className="text-xs px-3.5 py-1.5 rounded-full border border-appBorder bg-appMuted/45 text-appTextSecondary hover:border-appPrimary/40 hover:text-appPrimary transition-all cursor-pointer"
+                className="text-[11px] px-3 py-1.5 rounded-lg border border-appBorder bg-stone-50 text-appTextSecondary hover:border-appPrimary hover:text-appPrimary transition-all cursor-pointer font-medium"
               >
                 {suggestion}
               </button>
@@ -222,33 +250,32 @@ export default function StorageAdvisorPage() {
           </div>
         )}
 
-        {/* Text Input Area */}
+        {/* Input area */}
         <div className="p-4 border-t border-appBorder bg-white">
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleSendMessage(input);
             }}
-            className="flex gap-2.5"
+            className="flex gap-2"
           >
             <input
-              placeholder="Ask: Where should I store gold? or How do I preserve documents?..."
+              placeholder="Ask: How should I store photographic film? or How do I keep medicine bottles?..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
-              className="flex-1 bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-4 text-appTextPrimary outline-none text-sm h-11 shadow-soft"
+              className="flex-1 bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-4 text-appTextPrimary outline-none text-xs h-10 shadow-soft"
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="h-11 w-11 rounded-xl bg-appPrimary hover:bg-appPrimary-hover text-white shrink-0 p-0 shadow-md shadow-appPrimary/10 cursor-pointer flex items-center justify-center transition-colors disabled:opacity-50"
+              className="h-10 px-4 rounded-xl bg-appPrimary hover:bg-appPrimary-hover text-white text-xs font-semibold shadow-soft flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              <Send className="h-4 w-4" />
+              <Send className="h-3.5 w-3.5" /> Ask Advisor
             </button>
           </form>
         </div>
       </div>
     </div>
-
   );
 }

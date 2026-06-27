@@ -142,52 +142,41 @@ export default function AIAssistantPage() {
 
 
   return (
-    <div className="w-full h-full flex flex-col animate-fade-in">
-      {/* Chat Container */}
-      <div className="flex-1 flex flex-col border border-appBorder bg-white rounded-2xl overflow-hidden h-full shadow-soft">
+    <div className="w-full h-full flex flex-col animate-fade-in font-sans">
+      {/* Vault Assistant Card Header & Messages list */}
+      <div className="flex-1 flex flex-col border border-appBorder bg-white rounded-xl overflow-hidden h-full shadow-soft">
+        
+        {/* Info Banner */}
+        <div className="p-4 border-b border-appBorder bg-stone-50 text-[11px] text-appTextSecondary">
+          Ask questions about where you stored items, warranties, or documents. Your assistant queries database indexes in real-time.
+        </div>
+
         {/* Messages Body */}
         <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 min-h-[300px]">
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`flex items-start gap-3 max-w-[85%] ${
-                msg.role === "user" ? "ml-auto flex-row-reverse" : ""
+              className={`p-4 rounded-xl border text-sm leading-relaxed ${
+                msg.role === "user"
+                  ? "border-appPrimary/25 bg-appPrimary-light/20 text-appTextPrimary max-w-[85%] ml-auto"
+                  : "border-appBorder bg-white text-appTextPrimary shadow-soft max-w-[85%]"
               }`}
             >
-              {/* Avatar Icon */}
-              <div
-                className={`p-2 rounded-xl shrink-0 ${
-                  msg.role === "user"
-                    ? "bg-appPrimary text-white"
-                    : "bg-appMuted border border-appBorder text-appPrimary"
-                }`}
-              >
-                {msg.role === "user" ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+              <div className="flex justify-between items-center pb-1.5 mb-2 border-b border-stone-100 text-[10px] font-bold tracking-wider text-appTextSecondary uppercase">
+                <span>{msg.role === "user" ? "You" : "Vault Assistant"}</span>
+                <span className="text-[9px] text-stone-400 normal-case font-normal">
+                  {msg.role === "assistant" ? "Verified Vault Database Query" : ""}
+                </span>
               </div>
-
-              {/* Chat bubble text */}
-              <div
-                className={`p-4 rounded-2xl text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-appPrimary text-white rounded-tr-none"
-                    : "bg-appBg/65 border border-appBorder text-appTextPrimary rounded-tl-none shadow-soft"
-                }`}
-              >
-                <p className="whitespace-pre-line">{msg.content}</p>
-              </div>
+              <p className="whitespace-pre-line leading-relaxed text-xs">{msg.content}</p>
             </div>
           ))}
 
           {/* Loading Indicator */}
           {loading && (
-            <div className="flex items-start gap-3 max-w-[85%]">
-              <div className="p-2 rounded-xl bg-appMuted border border-appBorder text-appPrimary">
-                <Bot className="h-4 w-4" />
-              </div>
-              <div className="p-4 rounded-2xl bg-appBg/65 border border-appBorder text-appTextSecondary rounded-tl-none flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin text-appPrimary" />
-                Thinking...
-              </div>
+            <div className="p-4 rounded-xl border border-appBorder bg-stone-50 max-w-[85%] text-xs flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin text-appPrimary" />
+              <span className="text-appTextSecondary">Searching vault catalog...</span>
             </div>
           )}
           <div ref={messagesEndRef} />
@@ -195,12 +184,12 @@ export default function AIAssistantPage() {
 
         {/* Suggestion Chips */}
         {messages.length === 1 && (
-          <div className="px-6 pb-4 pt-2 flex flex-wrap gap-2.5">
+          <div className="px-6 pb-4 pt-2 flex flex-wrap gap-2">
             {suggestions.map((suggestion) => (
               <button
                 key={suggestion}
                 onClick={() => handleSendMessage(suggestion)}
-                className="text-xs px-3.5 py-1.5 rounded-full border border-appBorder bg-appMuted/45 text-appTextSecondary hover:border-appPrimary/40 hover:text-appPrimary transition-all cursor-pointer"
+                className="text-[11px] px-3 py-1.5 rounded-lg border border-appBorder bg-stone-50 text-appTextSecondary hover:border-appPrimary hover:text-appPrimary transition-all cursor-pointer font-medium"
               >
                 {suggestion}
               </button>
@@ -215,26 +204,25 @@ export default function AIAssistantPage() {
               e.preventDefault();
               handleSendMessage(input);
             }}
-            className="flex gap-2.5"
+            className="flex gap-2"
           >
             <input
-              placeholder="Ask: Where is my passport? or Show all documents..."
+              placeholder="Ask: Where did I keep the spare keys? or Show all documents..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
-              className="flex-1 bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-4 text-appTextPrimary outline-none text-sm h-11 shadow-soft"
+              className="flex-1 bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-4 text-appTextPrimary outline-none text-xs h-10 shadow-soft"
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="h-11 w-11 rounded-xl bg-appPrimary hover:bg-appPrimary-hover text-white shrink-0 p-0 shadow-md shadow-appPrimary/10 cursor-pointer flex items-center justify-center transition-colors disabled:opacity-50"
+              className="h-10 px-4 rounded-xl bg-appPrimary hover:bg-appPrimary-hover text-white text-xs font-semibold shadow-soft flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              <Send className="h-4 w-4" />
+              <Send className="h-3.5 w-3.5" /> Send
             </button>
           </form>
         </div>
       </div>
     </div>
-
   );
 }

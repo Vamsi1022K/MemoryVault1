@@ -4,27 +4,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        appBg: "#FAF8FC",
+        appBg: "#FAFAF8",
         appSurface: "#FFFFFF",
-        appMuted: "#F2F3F5",
-        appBorder: "#E5E7EB",
+        appSidebar: "#F5F5F2",
+        appBorder: "#E7E5E4",
         appPrimary: {
-          DEFAULT: "#8B5CF6",
-          hover: "#7C3AED",
-          light: "#F5F3FF",
+          DEFAULT: "#6D5BD0",
+          hover: "#5B4BC0",
+          light: "#F3F1FC",
         },
-        appSecondary: "#F59E0B",
-        appSuccess: "#22C55E",
-        appTextPrimary: "#111827",
+        appSuccess: "#22A06B",
+        appWarning: "#F59E0B",
+        appDanger: "#DC2626",
+        appTextPrimary: "#1F2937",
         appTextSecondary: "#6B7280",
       },
       boxShadow: {
         soft: "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)",
         card: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05)",
-        hover: "0 10px 15px -3px rgba(139, 92, 246, 0.05), 0 4px 6px -4px rgba(139, 92, 246, 0.05)",
+        hover: "0 10px 15px -3px rgba(109, 91, 208, 0.04), 0 4px 6px -4px rgba(109, 91, 208, 0.04)",
       }
     },
   },
   plugins: [],
 };
+
 
