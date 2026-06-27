@@ -7,6 +7,7 @@ export function useApi() {
   const apiFetch = useCallback(async (url: string, options: RequestInit = {}) => {
     try {
       const token = await getToken();
+      console.log("🔑 Clerk Token fetched:", token ? "YES (populated)" : "NO (null/empty)");
       
       const headers: Record<string, string> = {
         ...((options.headers as Record<string, string>) || {}),

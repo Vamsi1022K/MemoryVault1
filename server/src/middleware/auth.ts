@@ -10,7 +10,10 @@ import { clerkClient } from "@clerk/express";
  */
 export async function requireAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const { userId: clerkId } = getAuth(req);
+    const auth = getAuth(req);
+    console.log("🔒 [Backend Auth Check] Clerk ID:", auth.userId, "| Reason:", auth.authReason, "| Status:", auth.authStatus);
+    console.log("🔑 [Backend Auth Check] Auth Header:", req.headers.authorization ? "Present (Bearer token)" : "MISSING");
+    const { userId: clerkId } = auth;
 
     if (!clerkId) {
       res.status(401).json({ error: "Unauthorized" });

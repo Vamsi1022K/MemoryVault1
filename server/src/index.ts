@@ -27,20 +27,7 @@ app.use(
 app.use(express.json({ limit: "10mb" })); // 10MB limit for base64 image uploads
 app.use(clerkMiddleware()); // Attach Clerk auth context to every request
 
-// ── Routes ────────────────────────────────────────────────────────────────────
-
-app.use("/api/categories", categoriesRouter);
-app.use("/api/memories", memoriesRouter);
-app.use("/api/reminders", remindersRouter);
-app.use("/api/chat", chatRouter);
-app.use("/api/advisor", advisorRouter);
-
-// Health check endpoint
-app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", message: "MemoryVault API is running" });
-});
-
-// ── MongoDB Connection Middleware ──────────────────────────────────────────────
+// ── MongoDB Connection Interceptor ──────────────────────────────────────────────
 
 let cachedDbConnection: typeof mongoose | null = null;
 
@@ -61,7 +48,7 @@ async function connectToDatabase() {
   return cachedDbConnection;
 }
 
-// Intercept all requests to ensure MongoDB is connected
+// Intercept all requests to ensure MongoDB is connected before routes execute
 app.use(async (req, res, next) => {
   try {
     await connectToDatabase();
@@ -70,6 +57,19 @@ app.use(async (req, res, next) => {
     console.error("❌ Database connection failed:", error);
     res.status(500).json({ error: "Database connection failed", details: error.message });
   }
+});
+
+// ── Routes ────────────────────────────────────────────────────────────────────
+
+app.use("/api/categories", categoriesRouter);
+app.use("/api/memories", memoriesRouter);
+app.use("/api/reminders", remindersRouter);
+app.use("/api/chat", chatRouter);
+app.use("/api/advisor", advisorRouter);
+
+// Health check endpoint
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok", message: "MemoryVault API is running" });
 });
 
 // Only listen on a port if NOT running as a serverless function on Vercel
