@@ -22,7 +22,11 @@ export function useApi() {
         headers["Content-Type"] = "application/json";
       }
 
-      return fetch(url, {
+      // Prepend the backend API URL for production deployment
+      const apiUrl = import.meta.env.VITE_API_URL || "";
+      const finalUrl = url.startsWith("/api") ? `${apiUrl}${url}` : url;
+
+      return fetch(finalUrl, {
         ...options,
         headers,
       });
