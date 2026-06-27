@@ -4,8 +4,8 @@ An ultra-premium, AI-powered Personal Memory & Physical Storage Cataloging appli
 
 ---
 
-## 📖 GitHub Repository About / Bio
-> **AI-powered physical storage and inventory tracking app built with Next.js, PostgreSQL (Supabase), Prisma, Clerk Auth, and Gemini 2.5 RAG chatbot.**
+## 📖 About
+> **AI-powered physical storage and inventory tracking app built with React, Express.js, MongoDB Atlas, Clerk Auth, and Google Gemini 2.5 RAG chatbot.**
 
 ---
 
@@ -13,7 +13,7 @@ An ultra-premium, AI-powered Personal Memory & Physical Storage Cataloging appli
 
 * **📦 Relational Physical Cataloging**: Add, update, and search physical items, folder pathways, categories, and warranty dates, with inline creation dialogues.
 * **🧠 Gemini 2.5 RAG Memory Assistant**: An intelligent chatbot powered by Google Gemini 2.5 Flash. It tokenizes user queries and performs real-time database retrieval (RAG) to answer questions like *"Where did I keep my spare keys?"* naturally and securely.
-* **🛡️ Secure Clerk Authentication**: Protected dashboard routes and user-isolated database rows. Automatically syncs user credentials on login to ensure seamless experience.
+* **🛡️ Secure Clerk Authentication**: Protected dashboard routes and user-isolated database documents. Automatically syncs user credentials on login to ensure seamless experience.
 * **⏰ Expiry & Maintenance Reminders**: Smart notifications check active schedules. Receive browser toast alerts and live sound alarms on expiration/check-in dates.
 * **💡 Preservation Advisor**: Query best practices, safety guidelines, and environmental suggestions (temperature, security, protection) for any type of storage asset.
 * **🎨 Premium HUD Aesthetics**: Highly-polished design system featuring:
@@ -26,56 +26,102 @@ An ultra-premium, AI-powered Personal Memory & Physical Storage Cataloging appli
 
 ## 🛠️ Tech Stack
 
-* **Framework**: [Next.js (App Router)](https://nextjs.org/)
-* **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-* **Database & ORM**: PostgreSQL ([Supabase](https://supabase.com/)) & [Prisma ORM](https://www.prisma.io/)
-* **Authentication**: [Clerk Auth](https://clerk.com/)
-* **AI Processing**: [Google Gemini API](https://ai.google.dev/) (`gemini-2.5-flash`)
+### Frontend
+* **Framework**: [React 19](https://react.dev/) with [Vite](https://vitejs.dev/)
+* **Language**: [TypeScript](https://www.typescriptlang.org/)
+* **Styling**: Vanilla CSS (custom neon gradients, keyframes, and utility layouts)
+* **Authentication**: [Clerk React SDK](https://clerk.com/)
 * **Icons**: [Lucide React](https://lucide.dev/)
+* **Fonts**: [Google Fonts](https://fonts.google.com/) (Inter, JetBrains Mono)
+
+### Backend
+* **Runtime**: [Node.js](https://nodejs.org/)
+* **Framework**: [Express.js](https://expressjs.com/)
+* **Language**: [TypeScript](https://www.typescriptlang.org/)
+* **Database**: [MongoDB Atlas](https://www.mongodb.com/atlas) with [Mongoose ODM](https://mongoosejs.com/)
+* **Authentication**: [Clerk Express SDK](https://clerk.com/)
+* **AI Processing**: [Google Gemini API](https://ai.google.dev/) (`gemini-2.5-flash`)
+* **Validation**: [Zod](https://zod.dev/)
+
+### Deployment
+* **Frontend**: [Vercel](https://vercel.com/)
+* **Backend**: [Render](https://render.com/)
 
 ---
 
-## 📁 Key File Structure
+## 📁 Project Structure
 
 ```text
-├── app/
-│   ├── (auth)/                  # Clerk Sign-In / Sign-Up pages
-│   ├── (dashboard)/             # Protected User Dashboard routes
-│   │   ├── ai-assistant/        # Gemini RAG Chat interface
-│   │   ├── dashboard/           # Analytics, quick action add, recent items
-│   │   ├── memories/            # Items list, advanced search and filters
-│   │   ├── reminders/           # Active countdown checklist
-│   │   └── storage-advisor/     # Gemini preservation tips chat
-│   ├── api/                     # Backend API handlers for CRUD and AI endpoints
-│   ├── globals.css              # Custom neon gradients, keyframes and utility layouts
-│   └── layout.tsx               # Root Layout wrapping Clerk and CustomCursor
-├── components/
-│   ├── custom-cursor.tsx        # Liquid trailing background spotlight and pointer ring
-│   ├── glow-card.tsx            # Mouse-tracking glowing card outlines
-│   ├── landing-showcase.tsx     # Landing page interactive mockup slide system
-│   └── memory-dialog.tsx        # Dialog form for catalog additions
-├── prisma/
-│   ├── schema.prisma            # PostgreSQL schemas (User, Memory, Category, Reminder)
-│   └── seed.ts                  # Default categories seeder
+memory-vault/
+├── client/                          # React + Vite Frontend
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── GlowCard.tsx         # Mouse-tracking glowing card outlines
+│   │   │   ├── LandingShowcase.tsx  # Landing page interactive mockup slide system
+│   │   │   ├── MemoryDialog.tsx     # Dialog form for catalog additions
+│   │   │   └── ReminderNotifier.tsx # Live alarm & push notification scheduler
+│   │   ├── layouts/
+│   │   │   └── DashboardLayout.tsx  # Sidebar navigation and protected layout
+│   │   ├── lib/
+│   │   │   └── api.ts              # Authenticated API fetch helper
+│   │   ├── pages/
+│   │   │   ├── AIAssistantPage.tsx  # Gemini RAG Chat interface
+│   │   │   ├── CategoriesPage.tsx   # Category management CRUD
+│   │   │   ├── DashboardPage.tsx    # Analytics, quick actions, recent items
+│   │   │   ├── LandingPage.tsx      # Public marketing landing page
+│   │   │   ├── MemoriesPage.tsx     # Items list, advanced search and filters
+│   │   │   ├── RemindersPage.tsx    # Active countdown checklist
+│   │   │   ├── SignInPage.tsx       # Clerk Sign-In page
+│   │   │   ├── SignUpPage.tsx       # Clerk Sign-Up page
+│   │   │   └── StorageAdvisorPage.tsx # Gemini preservation tips chat
+│   │   ├── App.tsx                  # Root router with protected routes
+│   │   ├── index.css                # Global styles, neon gradients, animations
+│   │   └── main.tsx                 # Entry point wrapping Clerk provider
+│   ├── index.html
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── vite.config.ts
+│
+├── server/                          # Express.js Backend API
+│   ├── src/
+│   │   ├── middleware/
+│   │   │   └── auth.ts             # Clerk JWT verification & user upsert
+│   │   ├── models/
+│   │   │   ├── Category.ts         # Mongoose schema for categories
+│   │   │   ├── Memory.ts           # Mongoose schema for stored items
+│   │   │   ├── Reminder.ts         # Mongoose schema for reminders
+│   │   │   └── User.ts             # Mongoose schema for users
+│   │   ├── routes/
+│   │   │   ├── advisor.ts          # POST /api/advisor — Gemini preservation tips
+│   │   │   ├── categories.ts       # CRUD /api/categories
+│   │   │   ├── chat.ts             # POST /api/chat — Gemini RAG assistant
+│   │   │   ├── memories.ts         # CRUD /api/memories
+│   │   │   └── reminders.ts        # CRUD /api/reminders
+│   │   ├── utils/
+│   │   │   └── seedCategories.ts   # Default categories seeder
+│   │   └── index.ts                # Express app entry point
+│   ├── package.json
+│   └── tsconfig.json
+│
+└── README.md
 ```
 
 ---
 
 ## ⚙️ Environment Configuration
 
-Create a `.env` file in the root directory and configure the following credentials:
-
+### Client (`client/.env`)
 ```env
-# Database Connection (Supabase PostgreSQL pooler URL)
-DATABASE_URL="postgresql://<user>:<password>@<host>:<port>/postgres?pgbouncer=true"
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
+VITE_API_URL=http://localhost:5000    # Local dev (or your Render URL for production)
+```
 
-# Clerk Authentication API Keys
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+### Server (`server/.env`)
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/memoryvault?retryWrites=true&w=majority
+CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-
-# Google Gemini API Key
 GEMINI_API_KEY=AIzaSy...
 ```
 
@@ -83,31 +129,45 @@ GEMINI_API_KEY=AIzaSy...
 
 ## 🚀 Getting Started
 
-### 1. Clone the repository & Install dependencies
+### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/memory-vault.git
-cd memory-vault
+git clone https://github.com/Vamsi1022K/MemoryVault1.git
+cd MemoryVault1
+```
+
+### 2. Install dependencies
+```bash
+# Install backend dependencies
+cd server
+npm install
+
+# Install frontend dependencies
+cd ../client
 npm install
 ```
 
-### 2. Setup your Database and ORM
-Run Prisma migrations to push the schema to your database, and seed standard category inputs:
+### 3. Configure environment variables
+Create `.env` files in both `client/` and `server/` directories using the templates above.
+
+### 4. Run the application locally
 ```bash
-# Push database schemas
-npx prisma db push
+# Terminal 1: Start the backend server
+cd server
+npm run dev
 
-# Generate client
-npx prisma generate
-
-# Seed default category tags
-npx prisma db seed
-```
-
-### 3. Run the application locally
-```bash
+# Terminal 2: Start the frontend dev server
+cd client
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your web browser.
+
+Open [http://localhost:5173](http://localhost:5173) in your web browser.
+
+---
+
+## 🌐 Live Demo
+
+* **Frontend**: [memoryvault-client.vercel.app](https://memoryvault-client.vercel.app)
+* **Backend API**: [memoryvault-api-xadt.onrender.com](https://memoryvault-api-xadt.onrender.com)
 
 ---
 
