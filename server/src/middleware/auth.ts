@@ -20,16 +20,20 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
       return;
     }
 
-    // Check if user already exists in MongoDB
+    // Find existing user OR create one atomically (upsert prevents duplicate key errors)
     let user = await User.findOne({ clerkId });
 
     if (!user) {
-      // First login: fetch user details from Clerk and create a record
+      // First login: fetch user details from Clerk and upsert into MongoDB
       const clerkUser = await clerkClient.users.getUser(clerkId);
       const email = clerkUser.emailAddresses[0]?.emailAddress || "";
       const name = `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim() || null;
 
-      user = await User.create({ clerkId, email, name });
+      user = await User.findOneAndUpdate(
+        { clerkId },
+        { $setOnInsert: { clerkId, email, name } },
+        { upsert: true, new: true }
+      );
     }
 
     // Attach user to request object for use in route handlers
