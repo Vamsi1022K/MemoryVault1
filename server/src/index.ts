@@ -57,6 +57,11 @@ async function connectToDatabase() {
 
 // Intercept all requests to ensure MongoDB is connected before routes execute
 app.use(async (req, res, next) => {
+  // Bypass database connection for CORS preflight requests
+  if (req.method === "OPTIONS") {
+    return next();
+  }
+
   try {
     await connectToDatabase();
     next();
