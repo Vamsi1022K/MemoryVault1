@@ -11,7 +11,7 @@
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   body {
-    @apply bg-slate-950 text-slate-100;
+    @apply bg-appBg text-appTextPrimary;
     min-height: 100vh;
   }
 }
@@ -20,70 +20,22 @@
 .bg-grid-pattern {
   background-size: 60px 60px;
   background-image:
-    linear-gradient(to right, rgba(99, 102, 241, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
 }
 
 .bg-dot-pattern {
   background-size: 24px 24px;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px);
 }
 
 /* ── Glassmorphism card ─────────────────────────────────────────────── */
 .glass-card {
-  background: rgba(8, 10, 20, 0.45);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(139, 92, 246, 0.08);
 }
 
-/* ── Mouse-tracking glow borders ───────────────────────────────────── */
-.card-glow-container {
-  position: relative;
-  transition: border-color 0.3s ease;
-}
-
-.card-glow-border {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.2px;
-  background: radial-gradient(
-    350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-    rgba(6, 182, 212, 0.5),
-    rgba(217, 70, 239, 0.25) 30%,
-    transparent 70%
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 2;
-}
-
-.card-glow-bg {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    500px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-    rgba(6, 182, 212, 0.08),
-    rgba(217, 70, 239, 0.02) 40%,
-    transparent 75%
-  );
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 1;
-}
-
-.card-glow-container:hover .card-glow-border,
-.card-glow-container:hover .card-glow-bg {
-  opacity: 1;
-}
 
 /* ── Drifting ambient blob animations ──────────────────────────────── */
 @keyframes float-blob {

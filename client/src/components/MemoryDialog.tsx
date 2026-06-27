@@ -154,91 +154,91 @@ export default function MemoryDialog({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-[480px] bg-slate-900 border border-slate-800 text-slate-100 rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-[480px] bg-white border border-appBorder text-appTextPrimary rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
         <button
           onClick={() => onOpenChange(false)}
-          className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          className="absolute top-4 right-4 p-1.5 rounded-lg text-appTextSecondary hover:text-appTextPrimary hover:bg-appMuted transition-colors"
         >
           <X className="h-5 w-5" />
         </button>
 
-        <h3 className="text-xl font-bold text-white mb-4">
+        <h3 className="text-xl font-bold text-appTextPrimary mb-4">
           {isEdit ? "Edit Memory" : "Save a New Memory"}
         </h3>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Name */}
           <div className="space-y-2">
-            <label htmlFor="name" className="block text-sm font-medium text-slate-350">Item Name</label>
+            <label htmlFor="name" className="block text-sm font-medium text-appTextSecondary">Item Name</label>
             <input
               id="name"
               placeholder="e.g., Passport, Spare Keys, Gold Necklace"
-              className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3.5 py-2.5 text-slate-200 outline-none text-sm"
+              className="w-full bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-3.5 py-2.5 text-appTextPrimary outline-none text-sm shadow-soft"
               {...register("name")}
             />
             {errors.name && (
-              <p className="text-xs text-red-400 mt-1">{errors.name.message}</p>
+              <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>
             )}
           </div>
 
           {/* Category */}
           <div className="space-y-2">
-            <label htmlFor="category" className="block text-sm font-medium text-slate-350">Category</label>
+            <label htmlFor="category" className="block text-sm font-medium text-appTextSecondary">Category</label>
             <select
               id="category"
               value={watchedCategoryId || ""}
               onChange={(e) => setValue("categoryId", e.target.value || "", { shouldValidate: true })}
-              className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3.5 py-2.5 text-slate-200 outline-none text-sm"
+              className="w-full bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-3.5 py-2.5 text-appTextPrimary outline-none text-sm shadow-soft"
             >
-              <option value="" disabled className="bg-slate-950 text-slate-500">Select a category</option>
+              <option value="" disabled className="text-appTextSecondary/60">Select a category</option>
               {categories.map((category) => (
-                <option key={category.id} value={category.id} className="bg-slate-950 text-slate-200">
+                <option key={category.id} value={category.id} className="text-appTextPrimary">
                   {category.name}
                 </option>
               ))}
             </select>
             {errors.categoryId && (
-              <p className="text-xs text-red-400 mt-1">{errors.categoryId.message}</p>
+              <p className="text-xs text-red-500 mt-1">{errors.categoryId.message}</p>
             )}
           </div>
 
           {/* Storage Location */}
           <div className="space-y-2">
-            <label htmlFor="location" className="block text-sm font-medium text-slate-350">Storage Location</label>
+            <label htmlFor="location" className="block text-sm font-medium text-appTextSecondary">Storage Location</label>
             <input
               id="location"
               placeholder="e.g., Safe box, Blue drawer, Wardrobe shelf"
-              className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3.5 py-2.5 text-slate-200 outline-none text-sm"
+              className="w-full bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-3.5 py-2.5 text-appTextPrimary outline-none text-sm shadow-soft"
               {...register("location")}
             />
             {errors.location && (
-              <p className="text-xs text-red-400 mt-1">{errors.location.message}</p>
+              <p className="text-xs text-red-500 mt-1">{errors.location.message}</p>
             )}
           </div>
 
           {/* Notes */}
           <div className="space-y-2">
-            <label htmlFor="notes" className="block text-sm font-medium text-slate-350">Notes (Optional)</label>
+            <label htmlFor="notes" className="block text-sm font-medium text-appTextSecondary">Notes (Optional)</label>
             <textarea
               id="notes"
               placeholder="Add any helpful reminders, expiry details, descriptions, etc."
               rows={3}
-              className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3.5 py-2.5 text-slate-200 outline-none text-sm resize-none"
+              className="w-full bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-3.5 py-2.5 text-appTextPrimary outline-none text-sm resize-none shadow-soft"
               {...register("notes")}
             />
             {errors.notes && (
-              <p className="text-xs text-red-400 mt-1">{errors.notes.message}</p>
+              <p className="text-xs text-red-500 mt-1">{errors.notes.message}</p>
             )}
           </div>
 
           {/* Reminder Date */}
           <div className="space-y-2">
-            <label htmlFor="reminderDate" className="block text-sm font-medium text-slate-350">Reminder/Expiry Date (Optional)</label>
+            <label htmlFor="reminderDate" className="block text-sm font-medium text-appTextSecondary">Reminder/Expiry Date (Optional)</label>
             <input
               id="reminderDate"
               type="datetime-local"
-              className="w-full bg-slate-950 border border-slate-850 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3.5 py-2.5 text-slate-200 outline-none text-sm block [color-scheme:dark]"
+              className="w-full bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-3.5 py-2.5 text-appTextPrimary outline-none text-sm block shadow-soft"
               min={getLocalDateTimeString()}
               onChange={(e) => {
                 const dateStr = e.target.value;
@@ -247,16 +247,16 @@ export default function MemoryDialog({
               value={formatLocalDateForInput(watch("reminderDate"))}
             />
             {errors.reminderDate && (
-              <p className="text-xs text-red-400 mt-1">{errors.reminderDate.message}</p>
+              <p className="text-xs text-red-500 mt-1">{errors.reminderDate.message}</p>
             )}
           </div>
 
           {/* Photo Upload */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-slate-350 font-semibold">Item Photo (Optional)</label>
+            <label className="block text-sm font-medium text-appTextSecondary font-semibold">Item Photo (Optional)</label>
             
             {watchedPhotoUrl ? (
-              <div className="relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden h-40 w-full group">
+              <div className="relative rounded-xl border border-appBorder bg-appMuted/30 overflow-hidden h-40 w-full group">
                 <img
                   src={watchedPhotoUrl}
                   alt="Item Preview"
@@ -265,20 +265,20 @@ export default function MemoryDialog({
                 <button
                   type="button"
                   onClick={() => setValue("photoUrl", "", { shouldValidate: true })}
-                  className="absolute top-2 right-2 p-1.5 rounded-lg bg-red-600/90 text-white hover:bg-red-500 transition-colors shadow-md cursor-pointer flex items-center justify-center"
+                  className="absolute top-2 right-2 p-1.5 rounded-lg bg-red-650/90 text-white hover:bg-red-600 transition-colors shadow-md cursor-pointer flex items-center justify-center"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
             ) : (
-              <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-800 hover:border-slate-700 bg-slate-950/50 hover:bg-slate-950 rounded-xl h-40 w-full cursor-pointer transition-all group">
+              <label className="flex flex-col items-center justify-center border-2 border-dashed border-appBorder hover:border-appPrimary/40 bg-appMuted/20 hover:bg-appMuted/35 rounded-xl h-40 w-full cursor-pointer transition-all group">
                 <div className="flex flex-col items-center justify-center p-6 text-center space-y-2">
-                  <div className="p-2.5 rounded-lg bg-slate-900 text-slate-400 group-hover:text-indigo-400 transition-colors">
+                  <div className="p-2.5 rounded-lg bg-white text-appTextSecondary group-hover:text-appPrimary transition-colors shadow-soft">
                     <Upload className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-semibold text-slate-350">Click to upload an image</span>
-                    <p className="text-[10px] text-slate-500 mt-1">PNG, JPG, or WEBP (Max 2MB)</p>
+                    <span className="text-xs font-semibold text-appTextSecondary">Click to upload an image</span>
+                    <p className="text-[10px] text-appTextSecondary/70 mt-1">PNG, JPG, or WEBP (Max 2MB)</p>
                   </div>
                 </div>
                 <input
@@ -290,14 +290,14 @@ export default function MemoryDialog({
               </label>
             )}
             {errors.photoUrl && (
-              <p className="text-xs text-red-400 mt-1">{errors.photoUrl.message}</p>
+              <p className="text-xs text-red-500 mt-1">{errors.photoUrl.message}</p>
             )}
           </div>
 
-          <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-4 border-t border-slate-800">
+          <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-4 border-t border-appBorder">
             <button
               type="button"
-              className="px-4 py-2 text-sm font-semibold rounded-xl border border-slate-800 text-slate-350 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer"
+              className="px-4 py-2 text-sm font-semibold rounded-xl border border-appBorder text-appTextSecondary hover:bg-appMuted hover:text-appTextPrimary transition-colors cursor-pointer"
               onClick={() => onOpenChange(false)}
             >
               Cancel
@@ -305,7 +305,7 @@ export default function MemoryDialog({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-semibold rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-500/10 transition-colors disabled:opacity-50 cursor-pointer"
+              className="px-4 py-2 text-sm font-semibold rounded-xl bg-appPrimary hover:bg-appPrimary-hover text-white shadow-md shadow-appPrimary/10 transition-colors disabled:opacity-50 cursor-pointer"
             >
               {isSubmitting ? "Saving..." : isEdit ? "Update" : "Save"}
             </button>
@@ -313,5 +313,6 @@ export default function MemoryDialog({
         </form>
       </div>
     </div>
+
   );
 }

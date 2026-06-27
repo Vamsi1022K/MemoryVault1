@@ -35,21 +35,21 @@ export default function DashboardLayout() {
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
       isActive
-        ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20"
-        : "text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 hover:translate-x-1"
+        ? "bg-appPrimary-light text-appPrimary font-semibold shadow-soft"
+        : "text-appTextSecondary hover:bg-appMuted hover:text-appTextPrimary hover:translate-x-0.5"
     }`;
 
   return (
-    <div className="flex h-screen bg-slate-950 text-slate-100 overflow-hidden">
+    <div className="flex h-screen bg-appBg text-appTextPrimary overflow-hidden">
       <Toaster theme="dark" position="top-right" closeButton />
 
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex md:w-64 md:flex-col bg-slate-900 border-r border-slate-800">
-        <div className="flex items-center h-16 px-6 border-b border-slate-800 gap-2">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600 font-bold text-white shadow-lg shadow-indigo-500/35">
+      <aside className="hidden md:flex md:w-64 md:flex-col bg-white border-r border-appBorder">
+        <div className="flex items-center h-16 px-6 border-b border-appBorder gap-2">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-appPrimary font-bold text-white shadow-lg shadow-appPrimary/25">
             M
           </div>
-          <span className="text-lg font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-indigo-400 bg-clip-text text-transparent">
+          <span className="text-lg font-bold tracking-tight text-appTextPrimary">
             MemoryVault
           </span>
         </div>
@@ -63,15 +63,15 @@ export default function DashboardLayout() {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-slate-800 flex items-center gap-3 overflow-hidden">
+        <div className="p-4 border-t border-appBorder flex items-center gap-3 overflow-hidden">
           <UserButton
-            appearance={{ elements: { avatarBox: "h-9 w-9 rounded-xl border border-slate-700" } }}
+            appearance={{ elements: { avatarBox: "h-9 w-9 rounded-xl border border-appBorder" } }}
           />
           <div className="flex flex-col text-left overflow-hidden">
-            <span className="text-sm font-medium truncate text-slate-200">
+            <span className="text-sm font-medium truncate text-appTextPrimary">
               {user?.fullName || "User"}
             </span>
-            <span className="text-xs text-slate-500 truncate">
+            <span className="text-xs text-appTextSecondary truncate">
               {user?.primaryEmailAddress?.emailAddress || ""}
             </span>
           </div>
@@ -84,18 +84,18 @@ export default function DashboardLayout() {
           mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
         <div
-          className={`absolute inset-y-0 left-0 w-64 bg-slate-900 border-r border-slate-800 flex flex-col transition-transform duration-300 ease-in-out ${
+          className={`absolute inset-y-0 left-0 w-64 bg-white border-r border-appBorder flex flex-col transition-transform duration-300 ease-in-out ${
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <div className="flex items-center justify-between h-16 px-6 border-b border-slate-800">
+          <div className="flex items-center justify-between h-16 px-6 border-b border-appBorder">
             <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600 font-bold text-white">M</div>
-              <span className="text-lg font-bold text-white">MemoryVault</span>
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-appPrimary font-bold text-white">M</div>
+              <span className="text-lg font-bold text-appTextPrimary">MemoryVault</span>
             </div>
-            <button onClick={() => setMobileMenuOpen(false)} className="p-1 rounded-lg hover:bg-slate-800 text-slate-400">
+            <button onClick={() => setMobileMenuOpen(false)} className="p-1 rounded-lg hover:bg-appMuted text-appTextSecondary">
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -107,9 +107,9 @@ export default function DashboardLayout() {
               </NavLink>
             ))}
           </nav>
-          <div className="p-4 border-t border-slate-800 flex items-center gap-3">
+          <div className="p-4 border-t border-appBorder flex items-center gap-3">
             <UserButton />
-            <span className="text-sm font-medium truncate text-slate-200">{user?.fullName || "User"}</span>
+            <span className="text-sm font-medium truncate text-appTextPrimary">{user?.fullName || "User"}</span>
           </div>
         </div>
       </div>
@@ -117,15 +117,15 @@ export default function DashboardLayout() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="flex items-center justify-between h-16 px-6 border-b border-slate-800 bg-slate-900/60 backdrop-blur-md z-10">
+        <header className="flex items-center justify-between h-16 px-6 border-b border-appBorder bg-white/75 backdrop-blur-md z-10">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="p-2 -ml-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-200 md:hidden"
+              className="p-2 -ml-2 rounded-lg hover:bg-appMuted text-appTextSecondary hover:text-appTextPrimary md:hidden"
             >
               <Menu className="h-5 w-5" />
             </button>
-            <h1 className="text-lg md:text-xl font-semibold tracking-tight text-white">
+            <h1 className="text-lg md:text-xl font-semibold tracking-tight text-appTextPrimary">
               {getPageTitle(pathname)}
             </h1>
           </div>
@@ -138,10 +138,11 @@ export default function DashboardLayout() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-slate-950">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-appBg">
           <Outlet />
         </main>
       </div>
     </div>
   );
 }
+

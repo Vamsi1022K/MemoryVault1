@@ -183,12 +183,12 @@ export default function ReminderNotifier() {
   return (
     <>
       {/* Global Preference Toggle rendered in header of Sidebar layout */}
-      <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-300">
-        <span className="text-slate-500 font-medium hidden sm:inline">Notification Style:</span>
+      <div className="flex items-center gap-1.5 bg-white border border-appBorder rounded-xl px-3 py-1.5 text-xs text-appTextPrimary shadow-soft">
+        <span className="text-appTextSecondary font-medium hidden sm:inline">Notification Style:</span>
         <button
           onClick={() => handlePrefChange("alarm")}
           className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer flex items-center gap-1 ${
-            pref === "alarm" ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-slate-255"
+            pref === "alarm" ? "bg-appPrimary text-white shadow-soft" : "text-appTextSecondary hover:text-appTextPrimary"
           }`}
           title="Sound Alarm Only"
         >
@@ -198,7 +198,7 @@ export default function ReminderNotifier() {
         <button
           onClick={() => handlePrefChange("notification")}
           className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer flex items-center gap-1 ${
-            pref === "notification" ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-slate-255"
+            pref === "notification" ? "bg-appPrimary text-white shadow-soft" : "text-appTextSecondary hover:text-appTextPrimary"
           }`}
           title="Desktop Notification Only"
         >
@@ -208,7 +208,7 @@ export default function ReminderNotifier() {
         <button
           onClick={() => handlePrefChange("both")}
           className={`px-2 py-0.5 rounded-md font-semibold transition-all cursor-pointer flex items-center gap-1 ${
-            pref === "both" ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-slate-255"
+            pref === "both" ? "bg-appPrimary text-white shadow-soft" : "text-appTextSecondary hover:text-appTextPrimary"
           }`}
           title="Both Alarm & Push"
         >
@@ -219,37 +219,37 @@ export default function ReminderNotifier() {
 
       {/* Ringing Alarm Dialog Alert */}
       {ringingReminder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-[420px] bg-slate-950 border border-red-500/25 text-slate-100 rounded-2xl p-6 shadow-2xl shadow-red-500/5 text-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-[420px] bg-white border border-red-200 text-appTextPrimary rounded-2xl p-6 shadow-2xl shadow-red-100 text-center">
             <div className="flex flex-col items-center justify-center space-y-3 pb-3">
-              <div className="w-14 h-14 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center animate-bounce">
-                <Bell className="h-7 w-7 text-red-400" />
+              <div className="w-14 h-14 rounded-full bg-red-50 border border-red-100 text-red-600 flex items-center justify-center animate-bounce">
+                <Bell className="h-7 w-7 text-red-600" />
               </div>
-              <h3 className="text-xl font-bold text-red-400 flex items-center justify-center gap-2">
+              <h3 className="text-xl font-bold text-red-600 flex items-center justify-center gap-2">
                 Memory Reminder Active!
               </h3>
             </div>
 
             <div className="space-y-4 py-2">
               <div className="space-y-1">
-                <span className="text-xs text-slate-500 uppercase tracking-wider font-bold">Item Name</span>
-                <p className="text-lg font-extrabold text-white">{ringingReminder.memory.name}</p>
+                <span className="text-xs text-appTextSecondary uppercase tracking-wider font-bold">Item Name</span>
+                <p className="text-lg font-extrabold text-appTextPrimary">{ringingReminder.memory.name}</p>
               </div>
               
               <div className="space-y-1">
-                <span className="text-xs text-slate-500 uppercase tracking-wider font-bold">Storage Location</span>
-                <p className="text-sm font-semibold text-slate-200">{ringingReminder.memory.location}</p>
+                <span className="text-xs text-appTextSecondary uppercase tracking-wider font-bold">Storage Location</span>
+                <p className="text-sm font-semibold text-appTextPrimary">{ringingReminder.memory.location}</p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-400 leading-relaxed mt-2">
-                ⏰ Reminder time: <span className="font-semibold text-indigo-400">{new Date(ringingReminder.reminderDate).toLocaleString()}</span>
+              <div className="p-3.5 rounded-xl bg-appBg border border-appBorder text-xs text-appTextSecondary leading-relaxed mt-2">
+                ⏰ Reminder time: <span className="font-semibold text-appPrimary">{new Date(ringingReminder.reminderDate).toLocaleString()}</span>
               </div>
             </div>
 
-            <div className="pt-6 gap-2 flex flex-col sm:flex-row w-full mt-4 border-t border-slate-900">
+            <div className="pt-6 gap-2 flex flex-col sm:flex-row w-full mt-4 border-t border-appBorder">
               <button
                 type="button"
-                className="flex-1 px-4 py-2.5 text-sm font-semibold rounded-xl border border-slate-800 text-slate-400 hover:bg-slate-900 hover:text-white transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                className="flex-1 px-4 py-2.5 text-sm font-semibold rounded-xl border border-appBorder text-appTextSecondary hover:bg-appMuted hover:text-appTextPrimary transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                 onClick={handleSnooze}
               >
                 <Clock className="h-4 w-4" />
@@ -257,7 +257,7 @@ export default function ReminderNotifier() {
               </button>
               <button
                 type="button"
-                className="flex-1 px-4 py-2.5 text-sm font-semibold rounded-xl bg-red-600 hover:bg-red-500 text-white font-medium shadow-md shadow-red-500/10 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                className="flex-1 px-4 py-2.5 text-sm font-semibold rounded-xl bg-red-600 hover:bg-red-550 text-white font-medium shadow-md shadow-red-500/10 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                 onClick={handleResolve}
               >
                 <Check className="h-4 w-4" />

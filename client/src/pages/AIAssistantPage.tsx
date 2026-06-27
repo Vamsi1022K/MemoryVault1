@@ -142,9 +142,9 @@ export default function AIAssistantPage() {
 
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col animate-fade-in">
       {/* Chat Container */}
-      <div className="flex-1 flex flex-col border border-slate-800 bg-slate-900/10 rounded-2xl overflow-hidden h-full">
+      <div className="flex-1 flex flex-col border border-appBorder bg-white rounded-2xl overflow-hidden h-full shadow-soft">
         {/* Messages Body */}
         <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 min-h-[300px]">
           {messages.map((msg, index) => (
@@ -158,8 +158,8 @@ export default function AIAssistantPage() {
               <div
                 className={`p-2 rounded-xl shrink-0 ${
                   msg.role === "user"
-                    ? "bg-indigo-600 text-white"
-                    : "bg-slate-900 border border-slate-850 text-indigo-400"
+                    ? "bg-appPrimary text-white"
+                    : "bg-appMuted border border-appBorder text-appPrimary"
                 }`}
               >
                 {msg.role === "user" ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
@@ -169,8 +169,8 @@ export default function AIAssistantPage() {
               <div
                 className={`p-4 rounded-2xl text-sm leading-relaxed ${
                   msg.role === "user"
-                    ? "bg-indigo-650 text-white rounded-tr-none"
-                    : "bg-slate-900/70 border border-slate-850 text-slate-200 rounded-tl-none"
+                    ? "bg-appPrimary text-white rounded-tr-none"
+                    : "bg-appBg/65 border border-appBorder text-appTextPrimary rounded-tl-none shadow-soft"
                 }`}
               >
                 <p className="whitespace-pre-line">{msg.content}</p>
@@ -181,11 +181,11 @@ export default function AIAssistantPage() {
           {/* Loading Indicator */}
           {loading && (
             <div className="flex items-start gap-3 max-w-[85%]">
-              <div className="p-2 rounded-xl bg-slate-900 border border-slate-850 text-indigo-400">
+              <div className="p-2 rounded-xl bg-appMuted border border-appBorder text-appPrimary">
                 <Bot className="h-4 w-4" />
               </div>
-              <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-850 text-slate-400 rounded-tl-none flex items-center gap-2">
-                <Loader2 className="h-4 w-4 animate-spin text-indigo-400" />
+              <div className="p-4 rounded-2xl bg-appBg/65 border border-appBorder text-appTextSecondary rounded-tl-none flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin text-appPrimary" />
                 Thinking...
               </div>
             </div>
@@ -195,12 +195,12 @@ export default function AIAssistantPage() {
 
         {/* Suggestion Chips */}
         {messages.length === 1 && (
-          <div className="px-6 pb-2 pt-2 flex flex-wrap gap-2.5">
+          <div className="px-6 pb-4 pt-2 flex flex-wrap gap-2.5">
             {suggestions.map((suggestion) => (
               <button
                 key={suggestion}
                 onClick={() => handleSendMessage(suggestion)}
-                className="text-xs px-3.5 py-1.5 rounded-full border border-slate-850 bg-slate-900/40 text-slate-400 hover:border-slate-850 hover:text-white transition-all cursor-pointer"
+                className="text-xs px-3.5 py-1.5 rounded-full border border-appBorder bg-appMuted/45 text-appTextSecondary hover:border-appPrimary/40 hover:text-appPrimary transition-all cursor-pointer"
               >
                 {suggestion}
               </button>
@@ -209,7 +209,7 @@ export default function AIAssistantPage() {
         )}
 
         {/* Text Area / Input Bar */}
-        <div className="p-4 border-t border-slate-900 bg-slate-900/30">
+        <div className="p-4 border-t border-appBorder bg-white">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -222,12 +222,12 @@ export default function AIAssistantPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
-              className="flex-1 bg-slate-950 border border-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-4 text-slate-200 outline-none text-sm h-11"
+              className="flex-1 bg-white border border-appBorder focus:outline-none focus:ring-2 focus:ring-appPrimary focus:border-transparent rounded-xl px-4 text-appTextPrimary outline-none text-sm h-11 shadow-soft"
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="h-11 w-11 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shrink-0 p-0 shadow-md shadow-indigo-500/10 cursor-pointer flex items-center justify-center transition-colors disabled:opacity-50"
+              className="h-11 w-11 rounded-xl bg-appPrimary hover:bg-appPrimary-hover text-white shrink-0 p-0 shadow-md shadow-appPrimary/10 cursor-pointer flex items-center justify-center transition-colors disabled:opacity-50"
             >
               <Send className="h-4 w-4" />
             </button>
@@ -235,5 +235,6 @@ export default function AIAssistantPage() {
         </div>
       </div>
     </div>
+
   );
 }

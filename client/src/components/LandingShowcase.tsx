@@ -103,23 +103,19 @@ export default function LandingShowcase() {
             <button
               key={feature.id}
               onClick={() => setActiveTab(feature.id)}
-              onMouseMove={handleMouseMove}
-              className={`w-full p-5 rounded-2xl text-left transition-all duration-500 ease-out cursor-pointer relative group flex gap-4 items-start card-glow-container ${
+              className={`w-full p-5 rounded-2xl text-left transition-all duration-500 ease-out cursor-pointer relative group flex gap-4 items-start ${
                 isActive
-                  ? "glass-card border-cyan-500/20 bg-slate-900/40 shadow-[0_0_30px_rgba(6,182,212,0.05)] translate-x-2"
-                  : "border border-slate-950 bg-slate-950/20 hover:border-slate-800/10 hover:bg-slate-900/10"
+                  ? "bg-white border border-appBorder shadow-soft translate-x-2"
+                  : "border border-transparent bg-white/20 hover:border-appBorder/40 hover:bg-appMuted/15"
               }`}
             >
-              <div className="card-glow-border" />
-              <div className="card-glow-bg" />
-
               {/* Sidebar Active Indicator Line */}
-              <div className={`absolute left-0 top-6 bottom-6 w-[2px] transition-all duration-500 ${
-                isActive ? "bg-gradient-to-b from-cyan-400 to-fuchsia-500 opacity-100 h-10" : "bg-transparent opacity-0 h-0"
+              <div className={`absolute left-0 top-6 bottom-6 w-[3px] transition-all duration-500 rounded-r-full ${
+                isActive ? "bg-appPrimary opacity-100 h-10" : "bg-transparent opacity-0 h-0"
               }`} />
 
               <span className={`text-xs font-mono font-bold shrink-0 mt-0.5 tracking-wider transition-colors ${
-                isActive ? "text-cyan-400" : "text-slate-600 group-hover:text-slate-400"
+                isActive ? "text-appPrimary" : "text-appTextSecondary group-hover:text-appTextPrimary"
               }`}>
                 {feature.index}
               </span>
@@ -128,21 +124,21 @@ export default function LandingShowcase() {
                 <div className="flex items-center gap-2">
                   <h3 className={`text-base font-extrabold transition-all duration-300 ${
                     isActive 
-                      ? "text-white" 
-                      : "text-slate-400 group-hover:text-slate-200"
+                      ? "text-appTextPrimary" 
+                      : "text-appTextSecondary group-hover:text-appTextPrimary"
                   }`}>
                     {feature.title}
                   </h3>
                   {isActive && (
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-appPrimary animate-ping" />
                   )}
                 </div>
                 
-                {/* Expandable descriptive paragraph that transitions nicely */}
+                {/* Expandable descriptive paragraph */}
                 <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
                   isActive ? "max-h-24 opacity-100 mt-2" : "max-h-0 opacity-0 pointer-events-none"
                 }`}>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-appTextSecondary leading-relaxed">
                     {feature.shortDesc}
                   </p>
                 </div>
@@ -155,46 +151,43 @@ export default function LandingShowcase() {
       {/* Right side: Stacking visual card with dynamic Z-Index layering */}
       <div className="lg:col-span-7 h-[380px] relative w-full flex items-center justify-center">
         {/* Ambient background glow behind active mockup */}
-        <div className="absolute inset-0 bg-radial-gradient from-cyan-500/5 via-fuchsia-500/5 to-transparent blur-[60px] pointer-events-none rounded-3xl" />
+        <div className="absolute inset-0 bg-radial-gradient from-appPrimary/5 via-purple-500/5 to-transparent blur-[60px] pointer-events-none rounded-3xl" />
 
         {/* 1. Catalog Tab View Mockup */}
         <div
           className={`absolute inset-0 w-full h-full transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center ${getTabClasses("catalog")}`}
         >
-          <div className="w-full glass-card rounded-3xl border border-slate-800 bg-slate-900/10 p-6 md:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden card-glow-container h-full">
-            <div className="card-glow-border" />
-            <div className="card-glow-bg" />
-
+          <div className="w-full bg-white border border-appBorder p-6 md:p-8 flex flex-col justify-between shadow-2xl rounded-3xl relative overflow-hidden h-full">
             <div className="space-y-4 relative z-10 text-left">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-500/25 bg-cyan-500/10 text-cyan-400 text-[10px] font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-appPrimary/20 bg-appPrimary-light text-appPrimary text-[10px] font-bold uppercase tracking-wider">
                 <Shield className="h-3 w-3" /> Secure Cataloging
               </div>
-              <h3 className="text-2xl font-black text-white leading-tight bg-gradient-to-r from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-black text-appTextPrimary leading-tight">
                 Store with complete peace of mind.
               </h3>
-              <p className="text-slate-400 text-xs leading-relaxed max-w-md">
+              <p className="text-appTextSecondary text-xs leading-relaxed max-w-md">
                 Catalog precious items, folders, and heirlooms with high-fidelity base64 photo attachment, specific location fields, and user category tagging.
               </p>
             </div>
             
-            <div className="border border-slate-800/80 bg-slate-950/90 rounded-2xl p-4 shadow-xl space-y-3 relative z-10 mt-4 text-left">
-              <div className="flex justify-between items-center pb-2 border-b border-slate-900">
-                <span className="text-[10px] font-mono text-slate-500">Asset #MV-298</span>
-                <span className="text-[9px] px-2 py-0.5 rounded-full font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <div className="border border-appBorder bg-appBg/50 rounded-2xl p-4 shadow-soft space-y-3 relative z-10 mt-4 text-left">
+              <div className="flex justify-between items-center pb-2 border-b border-appBorder">
+                <span className="text-[10px] font-mono text-appTextSecondary">Asset #MV-298</span>
+                <span className="text-[9px] px-2 py-0.5 rounded-full font-bold bg-appPrimary-light text-appPrimary border border-appPrimary/15">
                   Documents
                 </span>
               </div>
               
               <div className="space-y-2">
-                <h4 className="text-xs font-bold text-white">Property Sale Agreement</h4>
+                <h4 className="text-xs font-bold text-appTextPrimary">Property Sale Agreement</h4>
                 <div className="grid grid-cols-2 gap-2 text-[10px]">
-                  <div className="p-2 rounded-xl bg-slate-900/40 border border-slate-900">
-                    <span className="text-[9px] text-slate-500 block">Storage</span>
-                    <span className="font-semibold text-slate-300 truncate block">Cabinet 3, Drawer A</span>
+                  <div className="p-2 rounded-xl bg-white border border-appBorder shadow-soft">
+                    <span className="text-[9px] text-appTextSecondary block">Storage</span>
+                    <span className="font-semibold text-appTextPrimary truncate block">Cabinet 3, Drawer A</span>
                   </div>
-                  <div className="p-2 rounded-xl bg-slate-900/40 border border-slate-900">
-                    <span className="text-[9px] text-slate-500 block">Alert set</span>
-                    <span className="font-semibold text-slate-300 truncate block">10/24/2026</span>
+                  <div className="p-2 rounded-xl bg-white border border-appBorder shadow-soft">
+                    <span className="text-[9px] text-appTextSecondary block">Alert set</span>
+                    <span className="font-semibold text-appTextPrimary truncate block">10/24/2026</span>
                   </div>
                 </div>
               </div>
@@ -206,39 +199,36 @@ export default function LandingShowcase() {
         <div
           className={`absolute inset-0 w-full h-full transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center ${getTabClasses("chat")}`}
         >
-          <div className="w-full glass-card rounded-3xl border border-slate-800 bg-slate-900/10 p-6 md:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden card-glow-container h-full">
-            <div className="card-glow-border" />
-            <div className="card-glow-bg" />
-
+          <div className="w-full bg-white border border-appBorder p-6 md:p-8 flex flex-col justify-between shadow-2xl rounded-3xl relative overflow-hidden h-full">
             <div className="space-y-4 relative z-10 text-left">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-fuchsia-500/25 bg-fuchsia-500/10 text-fuchsia-400 text-[10px] font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-appPrimary/20 bg-appPrimary-light text-appPrimary text-[10px] font-bold uppercase tracking-wider">
                 <Sparkles className="h-3 w-3" /> Conversational Retrieval
               </div>
-              <h3 className="text-2xl font-black text-white leading-tight bg-gradient-to-r from-white via-slate-100 to-fuchsia-300 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-black text-appTextPrimary leading-tight">
                 Ask naturally. Find immediately.
               </h3>
-              <p className="text-slate-400 text-xs leading-relaxed max-w-md">
+              <p className="text-appTextSecondary text-xs leading-relaxed max-w-md">
                 Search via keyword constraints or ask in plain English: "Where is my contract?" The RAG model reviews database records to give exact coordinates.
               </p>
             </div>
             
-            <div className="border border-slate-800/80 bg-slate-950/90 rounded-2xl overflow-hidden shadow-xl flex flex-col h-40 relative z-10 mt-4 text-left">
-              <div className="px-3.5 py-2 bg-slate-900/80 border-b border-slate-800 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="text-[10px] font-bold text-slate-400">Vault Assistant</span>
+            <div className="border border-appBorder bg-appBg/50 rounded-2xl overflow-hidden shadow-soft flex flex-col h-40 relative z-10 mt-4 text-left">
+              <div className="px-3.5 py-2 bg-white border-b border-appBorder flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-appPrimary animate-pulse" />
+                <span className="text-[10px] font-bold text-appTextPrimary">Vault Assistant</span>
               </div>
               
               <div className="flex-1 p-3 space-y-2 overflow-y-auto text-[10px]">
                 <div className="flex gap-2 justify-end">
-                  <div className="p-2 rounded-xl bg-fuchsia-600 text-white rounded-tr-none">
+                  <div className="p-2 rounded-xl bg-appPrimary text-white rounded-tr-none">
                     Where did I put the spare keys?
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="p-1 rounded-lg bg-slate-900 border border-slate-800 h-5 w-5 flex items-center justify-center text-cyan-400 shrink-0">
+                  <div className="p-1 rounded-lg bg-appPrimary-light border border-appPrimary/15 h-5 w-5 flex items-center justify-center text-appPrimary shrink-0">
                     <Bot className="h-3 w-3" />
                   </div>
-                  <div className="p-2 rounded-xl bg-slate-900/60 border border-slate-800 text-slate-300 rounded-tl-none leading-relaxed">
+                  <div className="p-2 rounded-xl bg-white border border-appBorder text-appTextPrimary rounded-tl-none leading-relaxed shadow-soft">
                     You kept the spare keys in the **Blue box on the entry closet shelf**.
                   </div>
                 </div>
@@ -251,39 +241,36 @@ export default function LandingShowcase() {
         <div
           className={`absolute inset-0 w-full h-full transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center ${getTabClasses("reminders")}`}
         >
-          <div className="w-full glass-card rounded-3xl border border-slate-800 bg-slate-900/10 p-6 md:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden card-glow-container h-full">
-            <div className="card-glow-border" />
-            <div className="card-glow-bg" />
-
+          <div className="w-full bg-white border border-appBorder p-6 md:p-8 flex flex-col justify-between shadow-2xl rounded-3xl relative overflow-hidden h-full">
             <div className="space-y-4 relative z-10 text-left">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-pink-500/25 bg-pink-500/10 text-pink-400 text-[10px] font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-appPrimary/20 bg-appPrimary-light text-appPrimary text-[10px] font-bold uppercase tracking-wider">
                 <Clock className="h-3 w-3" /> Expiries & Schedules
               </div>
-              <h3 className="text-2xl font-black text-white leading-tight bg-gradient-to-r from-white via-slate-100 to-pink-300 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-black text-appTextPrimary leading-tight">
                 Be alerted before it's too late.
               </h3>
-              <p className="text-slate-400 text-xs leading-relaxed max-w-md">
+              <p className="text-appTextSecondary text-xs leading-relaxed max-w-md">
                 Set expiration reminders for official paper works, warranties, or items. Enable browser alarm alerts, push notices, or both.
               </p>
             </div>
             
-            <div className="border border-slate-800/80 bg-slate-950/90 rounded-2xl p-4 shadow-xl relative z-10 mt-4 text-left space-y-2">
-              <div className="p-2.5 rounded-xl bg-slate-900/40 border border-slate-900 flex items-center justify-between text-[10px]">
+            <div className="border border-appBorder bg-appBg/50 rounded-2xl p-4 shadow-soft relative z-10 mt-4 text-left space-y-2">
+              <div className="p-2.5 rounded-xl bg-white border border-appBorder flex items-center justify-between text-[10px] shadow-soft">
                 <div className="min-w-0">
-                  <span className="font-bold text-slate-200 block truncate">Passport Renewal</span>
-                  <span className="text-[9px] text-slate-500 block">Expires in 30 Days</span>
+                  <span className="font-bold text-appTextPrimary block truncate">Passport Renewal</span>
+                  <span className="text-[9px] text-appTextSecondary block">Expires in 30 Days</span>
                 </div>
-                <span className="text-[9px] px-2 py-0.5 rounded-full font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span className="text-[9px] px-2 py-0.5 rounded-full font-bold bg-amber-50 text-amber-700 border border-amber-100">
                   Active
                 </span>
               </div>
               
-              <div className="p-2.5 rounded-xl bg-slate-900/40 border border-slate-900 flex items-center justify-between text-[10px]">
+              <div className="p-2.5 rounded-xl bg-white border border-appBorder flex items-center justify-between text-[10px] shadow-soft">
                 <div className="min-w-0">
-                  <span className="font-bold text-slate-200 block truncate">Home Insurance Policy</span>
-                  <span className="text-[9px] text-slate-500 block">Expires in 5 Days</span>
+                  <span className="font-bold text-appTextPrimary block truncate">Home Insurance Policy</span>
+                  <span className="text-[9px] text-appTextSecondary block">Expires in 5 Days</span>
                 </div>
-                <span className="text-[9px] px-2 py-0.5 rounded-full font-bold bg-red-500/10 text-red-400 border border-red-500/20 animate-pulse">
+                <span className="text-[9px] px-2 py-0.5 rounded-full font-bold bg-red-50 text-red-650 border border-red-100 animate-pulse">
                   Urgent
                 </span>
               </div>
